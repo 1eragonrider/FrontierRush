@@ -1,34 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
-public class PlayerSpriteMovement : MonoBehaviour
+public class PlayerSprite : MonoBehaviour
 {
-    public float speed = 10f;
-    public Text countText;
-    public bool gameOver = false;
+    public float speed = 1000f;
+    public bool gameEndingCollision = false;
+    public GameManager gameManager;
 
     private Rigidbody2D rb2d;
     private BoxCollider2D boxCollider2D;
     private Vector2 movement;
-    private int points;
-
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        gameOver = false;
         rb2d = GetComponent<Rigidbody2D>();
         boxCollider2D = GetComponent<BoxCollider2D>();
-        points = 0;
-        countText.text = "Gold Collected: " + points.ToString();
-
-        if (gameOver==true && Input.GetKeyDown("R"))
-        {
-            SceneManager.LoadScene("GameScene");
-        }
     }
 
     // Update is called once per frame
@@ -36,11 +25,6 @@ public class PlayerSpriteMovement : MonoBehaviour
     {
         movement.x = 0;
         movement.y = Input.GetAxisRaw("Vertical");
-
-        if (gameOver == true)
-        {
-            CancelInvoke();
-        }
     }
 
     private void FixedUpdate()
@@ -54,8 +38,8 @@ public class PlayerSpriteMovement : MonoBehaviour
         {
             collision.gameObject.SetActive(false);
             collision.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
-            points += 1;
-            countText.text = "Gold Collected: " + points.ToString();
+            gameManager.points += 1;
+            gameManager.countText.text = "Gold Collected: " + gameManager.points.ToString();
         } 
         else if(collision.gameObject.CompareTag("GameEnder"))
         {
@@ -67,7 +51,7 @@ public class PlayerSpriteMovement : MonoBehaviour
             Debug.Log("GAME OVER!");
 
             Time.timeScale = 0f;
-            gameOver = true;
+            gameEndingCollision = true;
         }
     }
 }

@@ -7,10 +7,10 @@ public class ObjectSpawner : MonoBehaviour
     public Nugget nuggetPrefab;
     public Rocks rocksPrefab;
     public Cactus cactusPrefab;
-    public PlayerSpriteMovement player;
+    public PlayerSprite player;
     public float spawnTime = 1f;
     public float spawnRate = 3f;
-    public float spawnDistance = 1.1f;
+    public float spawnDistance = 2f;
 
 
     void Start()
@@ -31,7 +31,7 @@ public class ObjectSpawner : MonoBehaviour
             Vector3 spawnPoint = this.transform.position + spawnPosition;
             Quaternion spawnRotation = Quaternion.identity;
 
-            int spawnObjectDecider = Random.Range(0, 2);
+            int spawnObjectDecider = Random.Range(0, 3);
             Vector2 Movementdirection = new Vector2(-50, 0);
 
             switch(spawnObjectDecider)
